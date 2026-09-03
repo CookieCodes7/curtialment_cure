@@ -583,7 +583,7 @@ export default function SolarEnergyAnimation() {
           '600 9px Inter, Arial, sans-serif'
 
         ctx.fillStyle =
-          'rgba(180, 120, 20, 0.55)'
+  'rgba(146, 64, 14, 0.85)'
 
         ctx.textAlign = 'center'
 
@@ -801,7 +801,7 @@ export default function SolarEnergyAnimation() {
         '700 9px Inter, Arial, sans-serif'
 
       ctx.fillStyle =
-        'rgba(180, 120, 20, 0.60)'
+  'rgba(146, 64, 14, 0.85)'
 
       ctx.fillText(
         'YU VASETU  •  RENEWABLE FLEXIBILITY',

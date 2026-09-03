@@ -5,55 +5,296 @@
   --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
-  --color-paper: #FAF9F5;
-  --color-paper-dim: #F1EFE8;
-  --color-ink: #1C1E1B;
-  --color-ink-soft: #52564F;
-  --color-ink-faint: #8A8D84;
-  --color-line: #E4E1D6;
+  /* =====================================================
+     YUVASETU LIGHT SOLAR PALETTE
+     ===================================================== */
 
-  --color-sun-50: #FDF3E2;
-  --color-sun-200: #F3CC85;
-  --color-sun-500: #DD8A1F;
-  --color-sun-600: #B8710C;
-  --color-sun-900: #4A2E08;
+  --color-paper: #F8F6EF;
+  --color-paper-dim: #EEEAE0;
 
-  --color-teal-50: #E4F1EC;
-  --color-teal-200: #9AC9B8;
-  --color-teal-500: #0E6E58;
-  --color-teal-600: #0A5744;
-  --color-teal-900: #072D24;
+  --color-ink: #18201B;
+  --color-ink-soft: #37423A;
+  --color-ink-faint: #5E685F;
 
-  --color-clay-50: #F8E9E1;
-  --color-clay-200: #E2A388;
-  --color-clay-500: #BE5030;
-  --color-clay-600: #9C3F24;
-  --color-clay-900: #3D1A0F;
+  --color-line: #D8D5CB;
 
-  --color-moss-50: #EAF1E7;
-  --color-moss-200: #AECBA0;
-  --color-moss-500: #4C7A52;
-  --color-moss-600: #3C6242;
-  --color-moss-900: #1D2F1F;
+  /* Solar */
+  --color-sun-50: #FFF7D6;
+  --color-sun-100: #FFEFAB;
+  --color-sun-200: #F7D774;
+  --color-sun-500: #D97706;
+  --color-sun-600: #B45309;
+  --color-sun-700: #92400E;
+  --color-sun-900: #4A2804;
+
+  /* Orange / curtailment */
+  --color-clay-50: #FFF0E7;
+  --color-clay-100: #FFE0CF;
+  --color-clay-200: #FDBA92;
+  --color-clay-500: #C2410C;
+  --color-clay-600: #9A3412;
+  --color-clay-900: #431407;
+
+  /* Green / healthy */
+  --color-moss-50: #EAF7EC;
+  --color-moss-100: #D8F0DB;
+  --color-moss-200: #A8D5AD;
+  --color-moss-500: #25803D;
+  --color-moss-600: #166534;
+  --color-moss-900: #12351C;
+
+  /* Teal retained for technical elements */
+  --color-teal-50: #E8F5F1;
+  --color-teal-200: #9FD1C0;
+  --color-teal-500: #08745D;
+  --color-teal-600: #075B49;
+  --color-teal-900: #07382E;
 }
+
+/* =====================================================
+   BASE
+   ===================================================== */
 
 html {
   background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 body {
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: var(--color-paper);
-  -webkit-font-smoothing: antialiased;
-}
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
 
-.font-mono, .num {
-  font-family: var(--font-mono);
-  font-feature-settings: "tnum" 1;
+  font-family: var(--font-sans);
+
+  color: var(--color-ink);
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(250, 204, 21, 0.10),
+      transparent 34%
+    ),
+    var(--color-paper);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =====================================================
+   TYPOGRAPHY
+   ===================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-ink);
+}
+
+p {
+  color: var(--color-ink-soft);
+}
+
+/* =====================================================
+   TEXT CONTRAST OVERRIDES
+   ===================================================== */
+
+/*
+ * The original dashboard used very light gray text.
+ * These overrides intentionally make every level readable.
+ */
+
+.text-ink {
+  color: #18201B !important;
+}
+
+.text-ink-soft {
+  color: #37423A !important;
+}
+
+.text-ink-faint {
+  color: #5E685F !important;
+}
+
+.text-gray-900 {
+  color: #111827 !important;
+}
+
+.text-gray-800 {
+  color: #1F2937 !important;
+}
+
+.text-gray-700 {
+  color: #374151 !important;
+}
+
+.text-gray-600 {
+  color: #4B5563 !important;
+}
+
+.text-gray-500 {
+  color: #5B6470 !important;
+}
+
+.text-gray-400 {
+  color: #667085 !important;
+}
+
+.text-gray-300 {
+  color: #4B5563 !important;
+}
+
+/* =====================================================
+   SOLAR TEXT
+   ===================================================== */
+
+.text-sun-500 {
+  color: #D97706 !important;
+}
+
+.text-sun-600 {
+  color: #B45309 !important;
+}
+
+.text-sun-700 {
+  color: #92400E !important;
+}
+
+.text-sun-900 {
+  color: #4A2804 !important;
+}
+
+/* =====================================================
+   ORANGE / WARNING TEXT
+   ===================================================== */
+
+.text-clay-500 {
+  color: #C2410C !important;
+}
+
+.text-clay-600 {
+  color: #9A3412 !important;
+}
+
+/* =====================================================
+   GREEN TEXT
+   ===================================================== */
+
+.text-moss-500 {
+  color: #25803D !important;
+}
+
+.text-moss-600 {
+  color: #166534 !important;
+}
+
+/* =====================================================
+   BORDERS
+   ===================================================== */
+
+.border-line {
+  border-color: #D8D5CB !important;
+}
+
+/* =====================================================
+   INPUTS
+   ===================================================== */
+
+input,
+textarea,
+select {
+  color: #18201B;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #737B73;
+  opacity: 1;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #D97706;
+}
+
+/* =====================================================
+   FOCUS
+   ===================================================== */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(217, 119, 6, 0.30);
+  outline-offset: 2px;
+}
+
+/* =====================================================
+   SELECTION
+   ===================================================== */
+
+::selection {
+  background: rgba(245, 158, 11, 0.28);
+  color: #111827;
+}
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+
+* {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-line) transparent;
+  scrollbar-color: #D2CEC2 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D2CEC2;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B7B1A3;
+}
+
+/* =====================================================
+   DISABLED
+   ===================================================== */
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
