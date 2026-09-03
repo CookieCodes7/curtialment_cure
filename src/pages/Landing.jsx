@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SolarEnergyAnimation from '../components/SolarEnergyAnimation'
 import {
   Sun,
   Zap,
@@ -481,6 +482,7 @@ export default function Landing() {
         </div>
 
       </section>
+      <SolarEnergyAnimation />
 
 
       {/* =========================================================
