@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SolarEnergyAnimation from '../components/SolarEnergyAnimation'
+import HardwareSolution from "../components/HardwareSolution";
 import {
   Sun,
   Zap,
@@ -198,6 +199,7 @@ export default function Landing() {
         </div>
 
       </header>
+      <HardwareSolution />
 
 
       {/* =========================================================
