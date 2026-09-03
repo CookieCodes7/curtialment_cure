@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --color-paper: #FAF9F5;
+  --color-paper-dim: #F1EFE8;
+  --color-ink: #1C1E1B;
+  --color-ink-soft: #52564F;
+  --color-ink-faint: #8A8D84;
+  --color-line: #E4E1D6;
+
+  --color-sun-50: #FDF3E2;
+  --color-sun-200: #F3CC85;
+  --color-sun-500: #DD8A1F;
+  --color-sun-600: #B8710C;
+  --color-sun-900: #4A2E08;
+
+  --color-teal-50: #E4F1EC;
+  --color-teal-200: #9AC9B8;
+  --color-teal-500: #0E6E58;
+  --color-teal-600: #0A5744;
+  --color-teal-900: #072D24;
+
+  --color-clay-50: #F8E9E1;
+  --color-clay-200: #E2A388;
+  --color-clay-500: #BE5030;
+  --color-clay-600: #9C3F24;
+  --color-clay-900: #3D1A0F;
+
+  --color-moss-50: #EAF1E7;
+  --color-moss-200: #AECBA0;
+  --color-moss-500: #4C7A52;
+  --color-moss-600: #3C6242;
+  --color-moss-900: #1D2F1F;
+}
+
+html {
+  background: var(--color-paper);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-mono, .num {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
