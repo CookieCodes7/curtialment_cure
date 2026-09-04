@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import HardwareSolution from "../components/HardwareSolution";
+import NetworkFlow3D from '../components/NetworkFlow3D.jsx'
 import {
   Sun,
   Zap,
@@ -418,6 +419,7 @@ export default function Landing() {
         </div>
 
       </section>
+      {/* <NetworkFlow3D /> */}
 
       {/* =====================================================
             ENERGY NETWORK

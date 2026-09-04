@@ -1,135 +1,526 @@
 import { runMatching } from '../services/matchingEngine.js'
-import { readSensor, accumulateEnergy } from '../services/sensorSimulation.js'
-import { calculateSettlement } from '../services/settlementEngine.js'
-import { addEvent, updateEvent, updateFlcs, pushNotification, getSnapshot, getPlant } from '../services/eventStore.js'
+import {
+  readSensor,
+  accumulateEnergy,
+} from '../services/sensorSimulation.js'
+import {
+  calculateSettlement,
+} from '../services/settlementEngine.js'
 
-const wait = (ms) => new Promise((r) => setTimeout(r, ms))
+import {
+  addEvent,
+  updateEvent,
+  updateFlcs,
+  pushNotification,
+  getSnapshot,
+  getPlant,
+} from '../services/eventStore.js'
+
+const wait = (ms) =>
+  new Promise((resolve) =>
+    setTimeout(resolve, ms)
+  )
 
 export const STATES = [
-  'DETECTED', 'MATCHING', 'MATCHED', 'DISPATCHING', 'ACTIVE', 'VERIFYING', 'COMPLETED', 'SETTLED',
+  'DETECTED',
+  'MATCHING',
+  'MATCHED',
+  'DISPATCHING',
+  'ACTIVE',
+  'VERIFYING',
+  'COMPLETED',
+  'SETTLED',
 ]
 
 let counter = 108
 
-// Drives one full simulated curtailment event through the state machine,
-// writing progress into the shared eventStore as it goes so every dashboard
-// subscribed to the store re-renders at each step. onLog receives a running
-// text log for the live console shown on the simulation screen.
-export async function runSimulation({ plantId, requiredKw, durationMin }, onLog = () => {}) {
+export async function runSimulation(
+  { plantId, requiredKw, durationMin },
+  onLog = () => {},
+  onStart = () => {},
+) {
   const plant = getPlant(plantId)
-  const eventId = `EVT-${counter++}`
-  const startedAt = new Date()
-  const fmtTime = (d) => d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 
-  const log = (msg) => onLog(`${fmtTime(new Date())}  ${msg}`)
+  if (!plant) {
+    throw new Error(
+      'Selected solar plant could not be found.'
+    )
+  }
+
+  if (
+    !Number.isFinite(requiredKw) ||
+    requiredKw <= 0
+  ) {
+    throw new Error(
+      'Required flexibility must be greater than 0 kW.'
+    )
+  }
+
+  if (
+    !Number.isFinite(durationMin) ||
+    durationMin <= 0
+  ) {
+    throw new Error(
+      'Duration must be greater than 0 minutes.'
+    )
+  }
+
+  const eventId = `EVT-${counter++}`
+
+  const startedAt = new Date()
+
+  const fmtTime = (date) =>
+    date.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    })
+
+  const log = (message) => {
+    onLog(
+      `${fmtTime(new Date())}  ${message}`
+    )
+  }
 
   const baseEvent = {
     id: eventId,
     plantId,
-    plant: plant?.name ?? plantId,
+    plant: plant.name,
     time: fmtTime(startedAt),
+
     requiredKw,
     matchedKw: 0,
     durationMin,
+
     status: 'DETECTED',
+
     flcCount: 0,
     selected: [],
+
     recoveredMwh: 0,
     settlement: null,
-    timeline: [{ label: 'Curtailment detected', at: fmtTime(startedAt) }],
-  }
-  addEvent(baseEvent)
-  pushNotification('discom', { text: `New curtailment event at ${plant?.name}`, time: fmtTime(startedAt) })
-  pushNotification('plant', { text: `Curtailment detected — ${requiredKw} kW required`, time: fmtTime(startedAt) })
-  log(`CDU event received from ${plant?.name}`)
-  await wait(500)
+    readings: [],
 
-  log(`Requirement calculated: ${requiredKw} kW`)
-  updateEvent(eventId, { status: 'MATCHING' })
+    timeline: [
+      {
+        label: 'Curtailment detected',
+        at: fmtTime(startedAt),
+      },
+    ],
+  }
+
+  addEvent(baseEvent)
+
+  // IMPORTANT:
+  // Send the event ID immediately so the UI can
+  // follow the simulation while it is running.
+  onStart(eventId)
+
+  pushNotification('discom', {
+    text: `New curtailment event at ${plant.name}`,
+    time: fmtTime(startedAt),
+  })
+
+  pushNotification('plant', {
+    text: `Curtailment detected — ${requiredKw} kW required`,
+    time: fmtTime(startedAt),
+  })
+
+  log(
+    `CDU event received from ${plant.name}`
+  )
+
+  log(`Event ID: ${eventId}`)
+
+  log(
+    `Curtailment requirement: ${requiredKw} kW`
+  )
+
+  log(
+    `Requested duration: ${durationMin} minutes`
+  )
+
+  await wait(650)
+
+  updateEvent(eventId, {
+    status: 'MATCHING',
+
+    timeline: [
+      ...baseEvent.timeline,
+
+      {
+        label: 'FLC scanning started',
+        at: fmtTime(new Date()),
+      },
+    ],
+  })
+
+  log('Scanning connected FLC network')
+
+  const snapshot = getSnapshot()
+
+  const available = snapshot.flcs.filter(
+    (flc) => flc.status === 'available'
+  )
+
+  const offline = snapshot.flcs.filter(
+    (flc) => flc.status === 'offline'
+  )
+
+  log(`${available.length} FLCs available`)
+
+  log(
+    `${offline.length} FLCs currently offline`
+  )
+
   await wait(700)
 
-  const available = getSnapshot().flcs.filter((f) => f.status === 'available')
-  log(`${available.length} FLCs available`)
-  await wait(500)
+  const {
+    selected,
+    matchedKw,
+  } = runMatching(
+    requiredKw,
+    available
+  )
 
-  const { selected, matchedKw } = runMatching(requiredKw, available)
   updateEvent(eventId, {
     status: 'MATCHED',
-    matchedKw,
-    flcCount: selected.length,
-    selected,
-    timeline: [...baseEvent.timeline, { label: 'Matching engine completed', at: fmtTime(new Date()) }],
-  })
-  log(`Matching engine completed`)
-  for (const f of selected) {
-    log(`${f.id} selected (score ${f.score})`)
-  }
-  await wait(600)
 
-  updateEvent(eventId, { status: 'DISPATCHING' })
-  log('Activation commands dispatched')
-  await wait(700)
+    matchedKw,
+
+    flcCount: selected.length,
+
+    selected,
+
+    timeline: [
+      ...baseEvent.timeline,
+
+      {
+        label: 'FLC scanning completed',
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label: 'Matching engine completed',
+        at: fmtTime(new Date()),
+      },
+    ],
+  })
+
+  log('Matching engine completed')
+
+  log(
+    `Matched capacity: ${matchedKw} kW`
+  )
+
+  log(
+    `Unserved requirement: ${Math.max(
+      requiredKw - matchedKw,
+      0
+    )} kW`
+  )
+
+  for (const flc of selected) {
+    log(
+      `${flc.id} selected — ${flc.allocatedKw} kW, ${flc.distanceKm} km, score ${flc.score}`
+    )
+  }
+
+  await wait(750)
+
+  updateEvent(eventId, {
+    status: 'DISPATCHING',
+
+    timeline: [
+      ...baseEvent.timeline,
+
+      {
+        label: 'Matching engine completed',
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Activation commands dispatched',
+        at: fmtTime(new Date()),
+      },
+    ],
+  })
+
+  log(
+    'Activation commands dispatched'
+  )
+
+  log(
+    `Sending commands to ${selected.length} FLC devices`
+  )
+
+  await wait(750)
 
   updateFlcs((flcs) =>
-    flcs.map((f) => {
-      const match = selected.find((s) => s.id === f.id)
-      return match ? { ...f, status: 'active', currentPowerKw: match.allocatedKw } : f
+    flcs.map((flc) => {
+      const match = selected.find(
+        (item) => item.id === flc.id
+      )
+
+      return match
+        ? {
+            ...flc,
+
+            status: 'active',
+
+            currentPowerKw:
+              match.allocatedKw,
+          }
+        : flc
     })
   )
-  for (const f of selected) {
-    pushNotification('farmer', {
-      text: `Your ${f.type.toLowerCase()} was activated — free power in progress`,
-      time: fmtTime(new Date()),
-    }, f.id)
+
+  for (const flc of selected) {
+    pushNotification(
+      'farmer',
+      {
+        text:
+          `Your ${flc.type.toLowerCase()} was activated — flexibility event in progress`,
+
+        time: fmtTime(new Date()),
+      },
+      flc.id
+    )
   }
-  log('FLCs acknowledged')
+
   updateEvent(eventId, {
     status: 'ACTIVE',
-    timeline: [...baseEvent.timeline,
-      { label: 'Matching engine completed', at: fmtTime(new Date()) },
-      { label: 'Activation commands sent', at: fmtTime(new Date()) },
-      { label: 'FLCs acknowledged', at: fmtTime(new Date()) },
+
+    timeline: [
+      ...baseEvent.timeline,
+
+      {
+        label:
+          'Matching engine completed',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Activation commands sent',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'FLCs acknowledged',
+
+        at: fmtTime(new Date()),
+      },
     ],
   })
+
+  log('FLCs acknowledged')
+
+  log(
+    `${selected.length} FLC devices are now ACTIVE`
+  )
+
   await wait(900)
 
-  log('Sensor data received')
-  const readings = selected.map((f) => readSensor(f.allocatedKw))
-  updateEvent(eventId, { status: 'VERIFYING' })
+  updateEvent(eventId, {
+    status: 'VERIFYING',
+  })
+
+  log(
+    'Sensor data received from active FLCs'
+  )
+
+  const readings = selected.map(
+    (flc) => {
+      const reading =
+        readSensor(flc.allocatedKw)
+
+      log(
+        `${flc.id} sensor — ${reading.voltage} V, ${reading.current} A, ${reading.powerKw} kW`
+      )
+
+      return reading
+    }
+  )
+
   await wait(800)
 
-  log('Energy verification started')
-  const compressedMinutes = Math.min(durationMin, 2) // compress real duration for the live demo
-  const energyKwh = accumulateEnergy(readings, compressedMinutes) * (durationMin / compressedMinutes)
+  log(
+    'Energy verification started'
+  )
+
+  /*
+   * Compress the sampling interval for the
+   * live demonstration.
+   *
+   * Example:
+   * 30-minute event
+   * becomes a ~2-minute simulated sample
+   * and is then scaled to 30 minutes.
+   */
+
+  const compressedMinutes =
+    Math.min(durationMin, 2)
+
+  const energyKwh =
+    accumulateEnergy(
+      readings,
+      compressedMinutes
+    ) *
+    (durationMin /
+      compressedMinutes)
+
+  log(
+    `Verified energy calculated: ${energyKwh.toFixed(2)} kWh`
+  )
+
   await wait(900)
 
-  const settlement = calculateSettlement(energyKwh)
+  const settlement =
+    calculateSettlement(
+      energyKwh
+    )
+
   updateEvent(eventId, {
     status: 'COMPLETED',
-    recoveredMwh: +(energyKwh / 1000).toFixed(3),
+
+    recoveredMwh:
+      +(energyKwh / 1000).toFixed(3),
+
     settlement,
-    readings: selected.map((f, i) => ({ id: f.id, allocatedKw: f.allocatedKw, ...readings[i] })),
-    timeline: [...baseEvent.timeline,
-      { label: 'Matching engine completed', at: fmtTime(new Date()) },
-      { label: 'Activation commands sent', at: fmtTime(new Date()) },
-      { label: 'FLCs acknowledged', at: fmtTime(new Date()) },
-      { label: 'Sensor data received', at: fmtTime(new Date()) },
-      { label: 'Event completed', at: fmtTime(new Date()) },
-      { label: 'Settlement generated', at: fmtTime(new Date()) },
+
+    readings:
+      selected.map(
+        (flc, index) => ({
+          id: flc.id,
+
+          allocatedKw:
+            flc.allocatedKw,
+
+          ...readings[index],
+        })
+      ),
+
+    timeline: [
+      ...baseEvent.timeline,
+
+      {
+        label:
+          'Matching engine completed',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Activation commands sent',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'FLCs acknowledged',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Sensor data received',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Event completed',
+
+        at: fmtTime(new Date()),
+      },
+
+      {
+        label:
+          'Settlement generated',
+
+        at: fmtTime(new Date()),
+      },
     ],
   })
-  updateFlcs((flcs) => flcs.map((f) => (selected.find((s) => s.id === f.id) ? { ...f, status: 'available', currentPowerKw: 0 } : f)))
-  for (const f of selected) {
-    const share = +(energyKwh / selected.length).toFixed(2)
-    const amt = calculateSettlement(share).amount
-    pushNotification('farmer', {
-      text: `Event completed — ${share} kWh verified, ₹${amt} added to your earnings`,
-      time: fmtTime(new Date()),
-    }, f.id)
+
+  log('Event completed')
+
+  log(
+    `Settlement rate: ₹${settlement.rate}/kWh`
+  )
+
+  log(
+    `Settlement amount: ₹${settlement.amount}`
+  )
+
+  updateFlcs((flcs) =>
+    flcs.map((flc) =>
+      selected.find(
+        (item) => item.id === flc.id
+      )
+        ? {
+            ...flc,
+
+            status: 'available',
+
+            currentPowerKw: 0,
+          }
+        : flc
+    )
+  )
+
+  for (const flc of selected) {
+    const share = +(
+      energyKwh /
+      selected.length
+    ).toFixed(2)
+
+    const amount =
+      calculateSettlement(
+        share
+      ).amount
+
+    pushNotification(
+      'farmer',
+      {
+        text:
+          `Event completed — ${share} kWh verified, ₹${amount} added to your earnings`,
+
+        time: fmtTime(new Date()),
+      },
+      flc.id
+    )
   }
-  pushNotification('plant', { text: `${matchedKw} kW matched, ${(energyKwh / 1000).toFixed(2)} MWh recovered`, time: fmtTime(new Date()) })
-  log(`Settlement generated — ₹${settlement.amount}`)
-  updateEvent(eventId, { status: 'SETTLED' })
+
+  pushNotification('plant', {
+    text:
+      `${matchedKw} kW matched, ${(energyKwh / 1000).toFixed(2)} MWh recovered`,
+
+    time: fmtTime(new Date()),
+  })
+
+  await wait(450)
+
+  updateEvent(eventId, {
+    status: 'SETTLED',
+  })
+
+  log(
+    'Settlement generated successfully'
+  )
+
+  log(
+    'Event status: SETTLED'
+  )
 
   return eventId
 }

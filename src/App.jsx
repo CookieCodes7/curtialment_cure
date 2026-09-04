@@ -18,6 +18,8 @@ import DiscomDashboard from './pages/discom/DiscomDashboard.jsx'
 import DiscomEvents from './pages/discom/DiscomEvents.jsx'
 import DiscomFlexibility from './pages/discom/DiscomFlexibility.jsx'
 import DiscomSimulation from './pages/discom/DiscomSimulation.jsx'
+import DiscomRegistration from './pages/discom/DiscomRegistration.jsx'
+
 
 import FarmerLayout from './components/FarmerLayout.jsx'
 import FarmerDashboard from './pages/farmer/FarmerDashboard.jsx'
@@ -76,6 +78,7 @@ export default function App() {
             <Route path="events" element={<DiscomEvents />} />
             <Route path="flexibility" element={<DiscomFlexibility />} />
             <Route path="simulation" element={<DiscomSimulation />} />
+            <Route path="registration" element={<DiscomRegistration />} />
             <Route path="settings" element={<SettingsPage fields={DISCOM_SETTINGS} />} />
           </Route>
 
