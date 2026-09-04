@@ -1,6 +1,6 @@
-# YuvaSetu — frontend prototype
+# SolarRevive — frontend prototype
 
-A frontend-only, production-styled prototype of the YuvaSetu platform: it
+A frontend-only, production-styled prototype of the SolarRevive platform: it
 coordinates curtailed solar generation with nearby Flexible Load Consumers
 (FLCs — irrigation pumps, cold storage, small industrial loads) so that
 power that would otherwise be wasted gets used instead.
@@ -51,9 +51,9 @@ with `npm run preview`.
 
 | Role | Email | Password |
 |---|---|---|
-| Plant developer | `plant@yuvasetu.demo` | `password123` |
-| DISCOM / grid operator | `discom@yuvasetu.demo` | `password123` |
-| Farmer / FLC | `farmer@yuvasetu.demo` | `password123` |
+| Plant developer | `plant@SolarRevive.demo` | `password123` |
+| DISCOM / grid operator | `discom@SolarRevive.demo` | `password123` |
+| Farmer / FLC | `farmer@SolarRevive.demo` | `password123` |
 
 The login screen also pre-fills these so you can just press "Log in".
 
@@ -65,9 +65,9 @@ The login screen also pre-fills these so you can just press "Log in".
    matching -> dispatch -> activation -> verification -> settlement (~7-8
    seconds total). The matching panel shows exactly which FLCs were
    selected and why (capacity 70% / distance 30% scoring).
-4. Log out, log in as **Plant developer** (`plant@yuvasetu.demo`). The
+4. Log out, log in as **Plant developer** (`plant@SolarRevive.demo`). The
    dashboard's KPIs and event table already reflect the event you just ran.
-5. Log out, log in as **Farmer** (`farmer@yuvasetu.demo`, FLC-001). If
+5. Log out, log in as **Farmer** (`farmer@SolarRevive.demo`, FLC-001). If
    FLC-001 was one of the ones selected, the pump status card shows
    "Active"/history and earnings update automatically.
 

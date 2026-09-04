@@ -572,7 +572,7 @@ export default function DiscomDashboard() {
 
 
       {/* =====================================================
-          YUVASETU PROGRAM NETWORK
+          SolarRevive PROGRAM NETWORK
           ===================================================== */}
 
       <div className="rounded-2xl border border-line bg-gradient-to-br from-sun-50 via-white to-teal-50 p-5 shadow-sm">
@@ -594,7 +594,7 @@ export default function DiscomDashboard() {
             <div>
 
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-teal-700">
-                YUVASETU PROGRAM
+                SolarRevive PROGRAM
               </p>
 
               <h2 className="mt-1 text-lg font-semibold text-ink">

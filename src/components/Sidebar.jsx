@@ -47,7 +47,7 @@ export default function Sidebar({ items, dark = false }) {
               dark ? 'text-white' : 'text-[#18201B]'
             }`}
           >
-            YuvaSetu
+            SolarRevive
           </div>
 
           <div
@@ -129,7 +129,7 @@ export default function Sidebar({ items, dark = false }) {
               dark ? 'text-gray-300' : 'text-gray-500'
             }`}
           >
-            YuvaSetu renewable flexibility network
+            SolarRevive renewable flexibility network
           </p>
 
         </div>

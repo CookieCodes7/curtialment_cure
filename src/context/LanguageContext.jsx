@@ -80,7 +80,7 @@ const translations = {
 
     // Demo
     demoNote:
-      'YuvaSetu demo · Energy and earnings shown are illustrative values from the prototype.',
+      'SolarRevive demo · Energy and earnings shown are illustrative values from the prototype.',
 
     // Account
     logout: 'Log out',
@@ -164,7 +164,7 @@ const translations = {
 
     // Demo
     demoNote:
-      'YuvaSetu डेमो · ऊर्जा और कमाई के आँकड़े प्रोटोटाइप के उदाहरणात्मक आँकड़े हैं।',
+      'SolarRevive डेमो · ऊर्जा और कमाई के आँकड़े प्रोटोटाइप के उदाहरणात्मक आँकड़े हैं।',
 
     // Account
     logout: 'लॉग आउट',
@@ -173,12 +173,12 @@ const translations = {
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('yuvasetu-language') || 'en'
+    return localStorage.getItem('SolarRevive-language') || 'en'
   })
 
   useEffect(() => {
     localStorage.setItem(
-      'yuvasetu-language',
+      'SolarRevive-language',
       language
     )
   }, [language])

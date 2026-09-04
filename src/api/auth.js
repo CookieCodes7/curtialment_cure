@@ -3,9 +3,9 @@
 // swap touches nothing else.
 
 const DEMO_USERS = {
-  'plant@yuvasetu.demo': { password: 'password123', role: 'plant', name: 'Anjali Verma', org: 'Pugal Solar Plant · O&M' },
-  'discom@yuvasetu.demo': { password: 'password123', role: 'discom', name: 'R. K. Meena', org: 'Bikaner Electricity Supply' },
-  'farmer@yuvasetu.demo': { password: 'password123', role: 'farmer', name: 'Ramesh Choudhary', org: 'FLC-001 · Pugal', flcId: 'FLC-001' },
+  'plant@SolarRevive.demo': { password: 'password123', role: 'plant', name: 'Anjali Verma', org: 'Pugal Solar Plant · O&M' },
+  'discom@SolarRevive.demo': { password: 'password123', role: 'discom', name: 'R. K. Meena', org: 'Bikaner Electricity Supply' },
+  'farmer@SolarRevive.demo': { password: 'password123', role: 'farmer', name: 'Ramesh Choudhary', org: 'FLC-001 · Pugal', flcId: 'FLC-001' },
 }
 
 export async function login(email, password) {
@@ -15,17 +15,17 @@ export async function login(email, password) {
     throw new Error('Incorrect email or password. Try the demo credentials shown below.')
   }
   const session = { email, role: user.role, name: user.name, org: user.org, flcId: user.flcId }
-  localStorage.setItem('yuvasetu_session', JSON.stringify(session))
+  localStorage.setItem('SolarRevive_session', JSON.stringify(session))
   return session
 }
 
 export function logout() {
-  localStorage.removeItem('yuvasetu_session')
+  localStorage.removeItem('SolarRevive_session')
 }
 
 export function getSession() {
   try {
-    return JSON.parse(localStorage.getItem('yuvasetu_session'))
+    return JSON.parse(localStorage.getItem('SolarRevive_session'))
   } catch {
     return null
   }

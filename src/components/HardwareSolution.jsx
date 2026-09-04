@@ -16,7 +16,7 @@ function HardwareUnit({
     >
       {/* Top surface */}
       <div className="hardware-top">
-        <div className="hardware-brand">YUVASETU</div>
+        <div className="hardware-brand">SolarRevive</div>
 
         <div className="hardware-leds">
           <span className={`led ${active ? "led-active" : ""}`} />

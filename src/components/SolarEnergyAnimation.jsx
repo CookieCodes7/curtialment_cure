@@ -867,7 +867,7 @@ export default function SolarEnergyAnimation() {
           </div>
 
           <p className="mt-1 text-[11px] text-gray-400">
-            Visualizing the renewable-energy ecosystem behind YuvaSetu
+            Visualizing the renewable-energy ecosystem behind SolarRevive
           </p>
 
         </div>
@@ -918,13 +918,13 @@ export default function SolarEnergyAnimation() {
           <div className="max-w-xl">
 
             <div className="text-[10px] font-bold uppercase tracking-[0.16em] text-yellow-600">
-              The YuvaSetu concept
+              The SolarRevive concept
             </div>
 
             <p className="mt-1 text-xs leading-5 text-gray-500">
 
               Renewable generation begins with sunlight.
-              YuvaSetu helps ensure that when renewable energy
+              SolarRevive helps ensure that when renewable energy
               cannot be fully absorbed by the grid, flexible demand
               can be coordinated to put that energy to productive use.
 

@@ -12,21 +12,21 @@ import { useAuth } from '../context/AuthContext.jsx'
 const ROLE_META = {
   plant: {
     title: 'Plant developer login',
-    demo: 'plant@yuvasetu.demo',
+    demo: 'plant@SolarRevive.demo',
     description:
       'Access renewable generation and curtailment analytics.',
   },
 
   discom: {
     title: 'DISCOM / grid operator login',
-    demo: 'discom@yuvasetu.demo',
+    demo: 'discom@SolarRevive.demo',
     description:
       'Access live grid flexibility and event controls.',
   },
 
   farmer: {
     title: 'Participant login',
-    demo: 'farmer@yuvasetu.demo',
+    demo: 'farmer@SolarRevive.demo',
     description:
       'Manage your flexible load and participation.',
   },
@@ -136,7 +136,7 @@ export default function Login() {
           <div>
 
             <div className="text-xl font-bold tracking-tight text-ink">
-              YuvaSetu
+              SolarRevive
             </div>
 
             <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-ink-faint">
@@ -288,7 +288,7 @@ export default function Login() {
         {/* Footer */}
 
         <p className="mt-5 text-center text-[10px] font-medium text-ink-faint">
-          YuvaSetu prototype · Secure demo environment
+          SolarRevive prototype · Secure demo environment
         </p>
 
       </div>

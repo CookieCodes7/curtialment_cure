@@ -149,7 +149,7 @@ export default function NetworkFlow3D() {
       <div className="network-header">
         <div>
           <p className="network-eyebrow">
-            YUVASETU NETWORK
+            SolarRevive NETWORK
           </p>
 
           <h2>
@@ -158,7 +158,7 @@ export default function NetworkFlow3D() {
           </h2>
 
           <p className="network-description">
-            YuvaSetu connects renewable generation,
+            SolarRevive connects renewable generation,
             the electrical grid, and flexible consumers
             to make better use of available power.
           </p>

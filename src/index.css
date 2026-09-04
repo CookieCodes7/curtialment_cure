@@ -6,7 +6,7 @@
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
   /* =====================================================
-     YUVASETU LIGHT SOLAR PALETTE
+     SolarRevive LIGHT SOLAR PALETTE
      ===================================================== */
 
   --color-paper: #F8F6EF;
@@ -310,7 +310,7 @@ button:disabled {
 }
 
 /* =========================================================
-   YUVASETU — 3D HARDWARE SECTION
+   SolarRevive — 3D HARDWARE SECTION
    ========================================================= */
 
 .hardware-section {
@@ -1119,7 +1119,7 @@ button:disabled {
 }
 
 /* =========================================================
-   YUVASETU NETWORK FLOW
+   SolarRevive NETWORK FLOW
    Solar Plant → Grid → Flexible Load
    ========================================================= */
 

@@ -1,4 +1,4 @@
-// Static seed data for the YuvaSetu prototype.
+// Static seed data for the SolarRevive prototype.
 // In production this is replaced by calls to the FastAPI backend.
 
 export const PLANTS = [

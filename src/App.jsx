@@ -32,12 +32,12 @@ import SettingsPage from './components/SettingsPage.jsx'
 
 const PLANT_SETTINGS = [
   { label: 'Organisation', value: 'Pugal Solar Plant · O&M' },
-  { label: 'Contact', value: 'plant@yuvasetu.demo' },
+  { label: 'Contact', value: 'plant@SolarRevive.demo' },
   { label: 'Notification preference', value: 'Email + in-app' },
 ]
 const DISCOM_SETTINGS = [
   { label: 'Organisation', value: 'Bikaner Electricity Supply' },
-  { label: 'Contact', value: 'discom@yuvasetu.demo' },
+  { label: 'Contact', value: 'discom@SolarRevive.demo' },
   { label: 'Matching policy', value: 'Prototype default (70/30)' },
 ]
 

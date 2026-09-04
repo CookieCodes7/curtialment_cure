@@ -161,7 +161,7 @@ export default function Landing() {
           <div>
 
             <div className="text-[20px] font-bold tracking-[-0.035em] text-gray-900">
-              YuvaSetu
+              SolarRevive
             </div>
 
             <div className="text-[9px] font-semibold uppercase tracking-[0.24em] text-gray-400">
@@ -250,7 +250,7 @@ export default function Landing() {
 
           <p className="mx-auto mt-8 max-w-2xl text-[15px] leading-7 text-gray-500 sm:text-[17px]">
 
-            YuvaSetu connects distant renewable energy plants with
+            SolarRevive connects distant renewable energy plants with
             flexible electricity consumers, transforming renewable
             curtailment into useful, measurable demand response.
 
@@ -502,7 +502,7 @@ export default function Landing() {
 
                 <EnergyNode
                   icon={Radio}
-                  label="YuvaSetu"
+                  label="SolarRevive"
                   subtitle="Matching"
                   active
                 />
@@ -526,7 +526,7 @@ export default function Landing() {
                 <p className="text-[11px] leading-5 text-gray-500">
 
                   <span className="font-bold text-orange-600">
-                    YuvaSetu response:
+                    SolarRevive response:
                   </span>{' '}
 
                   When renewable generation is curtailed, available
@@ -627,7 +627,7 @@ export default function Landing() {
             <Sun className="h-3.5 w-3.5 text-yellow-500" />
 
             <span className="text-[10px] font-medium tracking-wide text-gray-400">
-              YuvaSetu · Renewable Energy Flexibility Platform
+              SolarRevive · Renewable Energy Flexibility Platform
             </span>
 
           </div>

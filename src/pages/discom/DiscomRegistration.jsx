@@ -71,7 +71,7 @@ export default function DiscomRegistration() {
             <div>
 
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-sun-600">
-                YUVASETU PROGRAM
+                SolarRevive PROGRAM
               </p>
 
               <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">
@@ -79,7 +79,7 @@ export default function DiscomRegistration() {
               </h1>
 
               <p className="mt-1 max-w-2xl text-sm leading-6 text-ink-soft">
-                Register renewable plants and flexible loads to participate in the YuvaSetu flexibility network.
+                Register renewable plants and flexible loads to participate in the SolarRevive flexibility network.
               </p>
 
             </div>
@@ -113,7 +113,7 @@ export default function DiscomRegistration() {
           </h2>
 
           <p className="mt-1 text-xs text-ink-faint">
-            Current YuvaSetu network registration overview.
+            Current SolarRevive network registration overview.
           </p>
 
         </div>
@@ -214,7 +214,7 @@ export default function DiscomRegistration() {
         <div className="mb-3">
 
           <h2 className="text-sm font-semibold text-ink">
-            Add to YuvaSetu
+            Add to SolarRevive
           </h2>
 
           <p className="mt-1 text-xs text-ink-faint">
@@ -301,7 +301,7 @@ export default function DiscomRegistration() {
             </div>
 
             <p className="mt-3 text-xs leading-5 text-ink-soft">
-              The registered device becomes part of the YuvaSetu network.
+              The registered device becomes part of the SolarRevive network.
             </p>
 
           </div>

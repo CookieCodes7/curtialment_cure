@@ -146,7 +146,7 @@ export default function ProgramRegistration() {
             <div>
 
               <h2 className="text-base font-semibold text-ink">
-                YuvaSetu Program Network
+                SolarRevive Program Network
               </h2>
 
               <p className="mt-0.5 text-xs text-ink-faint">
@@ -357,7 +357,7 @@ export default function ProgramRegistration() {
             </h3>
 
             <p className="mt-1 text-xs text-ink-faint">
-              Add an agricultural, commercial or industrial load to the YuvaSetu flexibility network.
+              Add an agricultural, commercial or industrial load to the SolarRevive flexibility network.
             </p>
 
           </div>
@@ -611,7 +611,7 @@ export default function ProgramRegistration() {
             </h3>
 
             <p className="mt-1 text-xs text-ink-faint">
-              Add a renewable plant and its CDU to the YuvaSetu network.
+              Add a renewable plant and its CDU to the SolarRevive network.
             </p>
 
           </div>

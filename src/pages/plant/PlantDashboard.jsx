@@ -152,7 +152,7 @@ export default function PlantDashboard() {
       {reportOpen && (
         <div className="fixed inset-0 z-30 flex items-center justify-center bg-ink/45 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6">
-            <p className="text-xs text-ink-faint">YuvaSetu</p>
+            <p className="text-xs text-ink-faint">SolarRevive</p>
             <h3 className="mt-1 text-base font-medium text-ink">Curtailment recovery report</h3>
             <div className="mt-4 space-y-2 text-sm text-ink-soft">
               <div className="flex justify-between"><span>Plant</span><span className="text-ink">Pugal Solar Plant</span></div>
