@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import SolarEnergyAnimation from '../components/SolarEnergyAnimation'
 import HardwareSolution from "../components/HardwareSolution";
 import {
   Sun,
@@ -199,7 +198,6 @@ export default function Landing() {
         </div>
 
       </header>
-      <HardwareSolution />
 
 
       {/* =========================================================
@@ -291,9 +289,137 @@ export default function Landing() {
           </div>
 
         </div>
+        <HardwareSolution />
+
+      {/* =========================================================
+          PLATFORM ACCESS
+      ========================================================= */}
+
+      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-24 lg:px-10">
+
+        <div className="mb-9">
+
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+
+            <div>
+
+              <div className="flex items-center gap-2">
+
+                <span className="h-[2px] w-8 bg-gradient-to-r from-yellow-400 to-orange-400" />
+
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500">
+                  Platform access
+                </span>
+
+              </div>
+
+              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.025em] text-gray-900 sm:text-3xl">
+                Choose your workspace
+              </h2>
+
+            </div>
 
 
-        {/* =====================================================
+            <p className="max-w-md text-sm leading-6 text-gray-500 sm:text-right">
+
+              Three participants.
+
+              <br className="hidden sm:block" />
+
+              One coordinated renewable-energy flexibility network.
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+        {/* Role cards */}
+
+        <div className="grid gap-5 md:grid-cols-3">
+
+          {ROLES.map((role) => {
+
+            const Icon = role.icon
+
+            return (
+              <Link
+                key={role.to}
+                to={role.to}
+                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_10px_35px_rgba(80,60,20,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-yellow-300 hover:shadow-[0_20px_55px_rgba(245,158,11,0.12)]"
+              >
+
+                {/* Hover glow */}
+
+                <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-yellow-200/20 blur-3xl transition-all duration-500 group-hover:bg-yellow-300/30" />
+
+
+                {/* Number */}
+
+                <div className="absolute right-5 top-5 text-[10px] font-bold tracking-[0.2em] text-gray-200 transition-colors group-hover:text-yellow-400/50">
+                  {role.number}
+                </div>
+
+
+                <div className="relative">
+
+                  {/* Icon */}
+
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-gray-50 transition-all duration-300 group-hover:border-yellow-300 group-hover:bg-yellow-50">
+
+                    <Icon
+                      className="h-6 w-6 text-gray-500 transition-colors duration-300 group-hover:text-yellow-600"
+                      strokeWidth={1.5}
+                    />
+
+                  </div>
+
+
+                  {/* Title */}
+
+                  <h3 className="mt-7 text-[17px] font-semibold tracking-[-0.015em] text-gray-900">
+                    {role.title}
+                  </h3>
+
+
+                  {/* Description */}
+
+                  <p className="mt-2 min-h-[72px] text-[13px] leading-6 text-gray-500">
+                    {role.description}
+                  </p>
+
+
+                  {/* Action */}
+
+                  <div className="mt-7 flex items-center justify-between border-t border-gray-100 pt-4">
+
+                    <span className="text-[11px] font-bold text-gray-500 transition-colors group-hover:text-orange-500">
+                      {role.action}
+                    </span>
+
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 transition-all duration-300 group-hover:border-yellow-300 group-hover:bg-yellow-50">
+
+                      <ChevronRight
+                        className="h-4 w-4 text-gray-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-orange-500"
+                        strokeWidth={1.7}
+                      />
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </Link>
+            )
+          })}
+
+        </div>
+
+      </section>
+
+      {/* =====================================================
             ENERGY NETWORK
         ===================================================== */}
 
@@ -480,136 +606,6 @@ export default function Landing() {
             </div>
 
           </div>
-
-        </div>
-
-      </section>
-      <SolarEnergyAnimation />
-
-
-      {/* =========================================================
-          PLATFORM ACCESS
-      ========================================================= */}
-
-      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-24 lg:px-10">
-
-        <div className="mb-9">
-
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-
-            <div>
-
-              <div className="flex items-center gap-2">
-
-                <span className="h-[2px] w-8 bg-gradient-to-r from-yellow-400 to-orange-400" />
-
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-500">
-                  Platform access
-                </span>
-
-              </div>
-
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-0.025em] text-gray-900 sm:text-3xl">
-                Choose your workspace
-              </h2>
-
-            </div>
-
-
-            <p className="max-w-md text-sm leading-6 text-gray-500 sm:text-right">
-
-              Three participants.
-
-              <br className="hidden sm:block" />
-
-              One coordinated renewable-energy flexibility network.
-
-            </p>
-
-          </div>
-
-        </div>
-
-
-        {/* Role cards */}
-
-        <div className="grid gap-5 md:grid-cols-3">
-
-          {ROLES.map((role) => {
-
-            const Icon = role.icon
-
-            return (
-              <Link
-                key={role.to}
-                to={role.to}
-                className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_10px_35px_rgba(80,60,20,0.05)] transition-all duration-300 hover:-translate-y-1 hover:border-yellow-300 hover:shadow-[0_20px_55px_rgba(245,158,11,0.12)]"
-              >
-
-                {/* Hover glow */}
-
-                <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-yellow-200/20 blur-3xl transition-all duration-500 group-hover:bg-yellow-300/30" />
-
-
-                {/* Number */}
-
-                <div className="absolute right-5 top-5 text-[10px] font-bold tracking-[0.2em] text-gray-200 transition-colors group-hover:text-yellow-400/50">
-                  {role.number}
-                </div>
-
-
-                <div className="relative">
-
-                  {/* Icon */}
-
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-gray-50 transition-all duration-300 group-hover:border-yellow-300 group-hover:bg-yellow-50">
-
-                    <Icon
-                      className="h-6 w-6 text-gray-500 transition-colors duration-300 group-hover:text-yellow-600"
-                      strokeWidth={1.5}
-                    />
-
-                  </div>
-
-
-                  {/* Title */}
-
-                  <h3 className="mt-7 text-[17px] font-semibold tracking-[-0.015em] text-gray-900">
-                    {role.title}
-                  </h3>
-
-
-                  {/* Description */}
-
-                  <p className="mt-2 min-h-[72px] text-[13px] leading-6 text-gray-500">
-                    {role.description}
-                  </p>
-
-
-                  {/* Action */}
-
-                  <div className="mt-7 flex items-center justify-between border-t border-gray-100 pt-4">
-
-                    <span className="text-[11px] font-bold text-gray-500 transition-colors group-hover:text-orange-500">
-                      {role.action}
-                    </span>
-
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 transition-all duration-300 group-hover:border-yellow-300 group-hover:bg-yellow-50">
-
-                      <ChevronRight
-                        className="h-4 w-4 text-gray-400 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-orange-500"
-                        strokeWidth={1.7}
-                      />
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </Link>
-            )
-          })}
 
         </div>
 
