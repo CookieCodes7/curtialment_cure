@@ -1,21 +1,57 @@
-// Mock auth service. A future FastAPI backend replaces this with real
-// token-based auth — components only ever call login()/logout(), so the
-// swap touches nothing else.
+// Mock auth service.
+// A future FastAPI backend replaces this with real
+// token-based auth — components only ever call login()/logout(),
+// so the swap touches nothing else.
 
 const DEMO_USERS = {
-  'plant@SolarRevive.demo': { password: 'password123', role: 'plant', name: 'Anjali Verma', org: 'Pugal Solar Plant · O&M' },
-  'discom@SolarRevive.demo': { password: 'password123', role: 'discom', name: 'R. K. Meena', org: 'Bikaner Electricity Supply' },
-  'farmer@SolarRevive.demo': { password: 'password123', role: 'farmer', name: 'Ramesh Choudhary', org: 'FLC-001 · Pugal', flcId: 'FLC-001' },
+  'plant@solarrevive.demo': {
+    password: 'password123',
+    role: 'plant',
+    name: 'Anjali Verma',
+    org: 'Pugal Solar Plant · O&M',
+  },
+
+  'discom@solarrevive.demo': {
+    password: 'password123',
+    role: 'discom',
+    name: 'R. K. Meena',
+    org: 'Bikaner Electricity Supply',
+  },
+
+  'farmer@solarrevive.demo': {
+    password: 'password123',
+    role: 'farmer',
+    name: 'Ramesh Choudhary',
+    org: 'FLC-001 · Pugal',
+    flcId: 'FLC-001',
+  },
 }
 
 export async function login(email, password) {
   await new Promise((r) => setTimeout(r, 400))
-  const user = DEMO_USERS[email.trim().toLowerCase()]
+
+  const normalizedEmail = email.trim().toLowerCase()
+  const user = DEMO_USERS[normalizedEmail]
+
   if (!user || user.password !== password) {
-    throw new Error('Incorrect email or password. Try the demo credentials shown below.')
+    throw new Error(
+      'Incorrect email or password. Try the demo credentials shown below.'
+    )
   }
-  const session = { email, role: user.role, name: user.name, org: user.org, flcId: user.flcId }
-  localStorage.setItem('SolarRevive_session', JSON.stringify(session))
+
+  const session = {
+    email: normalizedEmail,
+    role: user.role,
+    name: user.name,
+    org: user.org,
+    flcId: user.flcId,
+  }
+
+  localStorage.setItem(
+    'SolarRevive_session',
+    JSON.stringify(session)
+  )
+
   return session
 }
 
@@ -25,7 +61,9 @@ export function logout() {
 
 export function getSession() {
   try {
-    return JSON.parse(localStorage.getItem('SolarRevive_session'))
+    return JSON.parse(
+      localStorage.getItem('SolarRevive_session')
+    )
   } catch {
     return null
   }
