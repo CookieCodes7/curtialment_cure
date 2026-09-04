@@ -12,6 +12,7 @@ import {
 
 import { useEventStore } from '../../lib/useEventStore.js'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { useLanguage } from '../../context/LanguageContext.jsx'
 import { FARMER_HISTORY } from '../../data/mockData.js'
 
 const FLC_ID = 'FLC-001'
@@ -19,6 +20,7 @@ const FLC_ID = 'FLC-001'
 export default function FarmerDashboard() {
   const { session } = useAuth()
   const { flcs, liveEvents } = useEventStore()
+  const { t } = useLanguage()
 
   const myFlc = flcs.find(
     (f) => f.id === (session?.flcId ?? FLC_ID)
@@ -39,14 +41,12 @@ export default function FarmerDashboard() {
 
   const recentHistory = FARMER_HISTORY.slice(0, 3)
 
+  // Demo values
   const monthlyEarnings = 428.5
-
   const monthlyEnergy = 53.4
-
   const monthlyEvents = 12
 
   const currentPower = myFlc?.currentPowerKw ?? 0
-
   const capacity = myFlc?.capacityKw ?? 7.5
 
   const utilization =
@@ -75,7 +75,6 @@ export default function FarmerDashboard() {
       >
 
         {/* Decorative circle */}
-
         <div
           className={`absolute -right-10 -top-10 h-32 w-32 rounded-full ${
             active
@@ -89,8 +88,9 @@ export default function FarmerDashboard() {
           <div className="flex items-start justify-between">
 
             <div>
+
               <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink-faint">
-                YOUR FLEXIBLE LOAD
+                {t('yourFlexibleLoad')}
               </p>
 
               <div className="mt-2 flex items-center gap-2">
@@ -105,17 +105,18 @@ export default function FarmerDashboard() {
 
                 <h1 className="text-2xl font-bold tracking-tight text-ink">
                   {active
-                    ? 'Running now'
-                    : 'Ready'}
+                    ? t('runningNow')
+                    : t('ready')}
                 </h1>
 
               </div>
 
               <p className="mt-1 text-sm text-ink-soft">
                 {active
-                  ? 'Your pump is participating in a flexibility event.'
-                  : 'Your pump is available for the next event.'}
+                  ? t('participatingEvent')
+                  : t('availableEvent')}
               </p>
+
             </div>
 
             <div
@@ -134,27 +135,32 @@ export default function FarmerDashboard() {
 
           </div>
 
+
           {/* Current power */}
 
           <div className="mt-5 flex items-end justify-between">
 
             <div>
+
               <p className="text-xs text-ink-faint">
-                Current power
+                {t('currentPower')}
               </p>
 
               <p className="mt-1 font-mono text-3xl font-semibold text-ink">
                 {currentPower}
+
                 <span className="ml-1 text-base font-normal text-ink-faint">
                   kW
                 </span>
               </p>
+
             </div>
+
 
             <div className="text-right">
 
               <p className="text-xs text-ink-faint">
-                Capacity
+                {t('capacity')}
               </p>
 
               <p className="mt-1 font-mono text-sm font-medium text-ink">
@@ -164,6 +170,7 @@ export default function FarmerDashboard() {
             </div>
 
           </div>
+
 
           {/* Power bar */}
 
@@ -178,24 +185,31 @@ export default function FarmerDashboard() {
                     : 'bg-sun-500'
                 }`}
                 style={{
-                  width: `${active ? Math.max(utilization, 8) : 0}%`,
+                  width: `${
+                    active
+                      ? Math.max(utilization, 8)
+                      : 0
+                  }%`,
                 }}
               />
 
             </div>
 
+
             <div className="mt-1 flex justify-between text-[10px] text-ink-faint">
+
               <span>
                 {active
-                  ? `${utilization}% active`
-                  : 'Not currently running'}
+                  ? `${utilization}% ${t('live')}`
+                  : t('notRunning')}
               </span>
 
               <span>
                 {active
-                  ? 'LIVE'
-                  : 'AVAILABLE'}
+                  ? t('live').toUpperCase()
+                  : t('available').toUpperCase()}
               </span>
+
             </div>
 
           </div>
@@ -210,23 +224,27 @@ export default function FarmerDashboard() {
           ===================================================== */}
 
       {myEvent && (
+
         <div className="rounded-2xl border border-orange-200 bg-orange-50 p-4">
 
           <div className="flex items-start gap-3">
 
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-orange-700">
+
               <Activity
                 className="h-4 w-4"
                 strokeWidth={2}
               />
+
             </div>
+
 
             <div className="min-w-0 flex-1">
 
               <div className="flex items-center justify-between gap-3">
 
                 <p className="text-sm font-semibold text-ink">
-                  Flexibility event
+                  {t('flexibilityEvent')}
                 </p>
 
                 <span className="rounded-full bg-white px-2 py-1 text-[10px] font-bold uppercase text-orange-700">
@@ -235,23 +253,37 @@ export default function FarmerDashboard() {
 
               </div>
 
+
               <p className="mt-1 text-xs text-ink-soft">
-                {myEvent.plant || 'Solar plant'} ·
+
+                {myEvent.plant || t('solarPlant')}
+
+                {' · '}
+
                 {myEvent.requiredKw
-                  ? ` ${myEvent.requiredKw} kW requested`
-                  : ' Energy flexibility request'}
+                  ? ` ${myEvent.requiredKw} kW ${t('requested')}`
+                  : ` ${t('energyFlexibilityRequest')}`}
+
               </p>
+
 
               <div className="mt-3 flex items-center gap-4 text-xs">
 
                 <span className="flex items-center gap-1.5 text-ink-soft">
+
                   <Clock3 className="h-3.5 w-3.5" />
-                  Event in progress
+
+                  {t('eventInProgress')}
+
                 </span>
 
+
                 <span className="flex items-center gap-1.5 font-medium text-green-700">
+
                   <Zap className="h-3.5 w-3.5" />
-                  Participating
+
+                  {t('participating')}
+
                 </span>
 
               </div>
@@ -261,6 +293,7 @@ export default function FarmerDashboard() {
           </div>
 
         </div>
+
       )}
 
 
@@ -268,7 +301,8 @@ export default function FarmerDashboard() {
           QUICK STATS
           ===================================================== */}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+
 
         {/* Earnings */}
 
@@ -277,11 +311,14 @@ export default function FarmerDashboard() {
           <div className="flex items-center justify-between">
 
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sun-50 text-sun-600">
+
               <IndianRupee
                 className="h-4 w-4"
                 strokeWidth={2}
               />
+
             </div>
+
 
             <ArrowUpRight
               className="h-4 w-4 text-green-600"
@@ -290,8 +327,9 @@ export default function FarmerDashboard() {
 
           </div>
 
+
           <p className="mt-4 text-[11px] text-ink-faint">
-            THIS MONTH
+            {t('thisMonth').toUpperCase()}
           </p>
 
           <p className="mt-1 font-mono text-xl font-semibold text-ink">
@@ -299,7 +337,7 @@ export default function FarmerDashboard() {
           </p>
 
           <p className="mt-1 text-[11px] text-green-700">
-            Earned from flexibility
+            {t('earnedFromFlexibility')}
           </p>
 
         </div>
@@ -310,25 +348,33 @@ export default function FarmerDashboard() {
         <div className="rounded-2xl border border-line bg-white p-4">
 
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+
             <Gauge
               className="h-4 w-4"
               strokeWidth={2}
             />
+
           </div>
 
+
           <p className="mt-4 text-[11px] text-ink-faint">
-            VERIFIED ENERGY
+            {t('verifiedEnergy').toUpperCase()}
           </p>
 
+
           <p className="mt-1 font-mono text-xl font-semibold text-ink">
+
             {monthlyEnergy}
+
             <span className="ml-1 text-xs font-normal text-ink-faint">
               kWh
             </span>
+
           </p>
 
+
           <p className="mt-1 text-[11px] text-ink-faint">
-            Hardware verified
+            {t('hardwareVerified')}
           </p>
 
         </div>
@@ -345,23 +391,29 @@ export default function FarmerDashboard() {
         <div className="flex items-center justify-between">
 
           <div>
+
             <p className="text-sm font-semibold text-ink">
-              Your participation
+              {t('yourParticipation')}
             </p>
 
             <p className="mt-1 text-xs text-ink-faint">
-              Your contribution this month
+              {t('yourContribution')}
             </p>
+
           </div>
 
+
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-50 text-green-600">
+
             <TrendingUp
               className="h-4 w-4"
               strokeWidth={2}
             />
+
           </div>
 
         </div>
+
 
         <div className="mt-5 grid grid-cols-3 divide-x divide-line">
 
@@ -372,22 +424,24 @@ export default function FarmerDashboard() {
             </p>
 
             <p className="mt-1 text-[10px] text-ink-faint">
-              EVENTS
+              {t('events').toUpperCase()}
             </p>
 
           </div>
+
 
           <div className="text-center">
 
             <p className="font-mono text-lg font-semibold text-ink">
-              53.4
+              {monthlyEnergy}
             </p>
 
             <p className="mt-1 text-[10px] text-ink-faint">
-              kWh VERIFIED
+              {t('kwhVerified').toUpperCase()}
             </p>
 
           </div>
+
 
           <div className="text-center">
 
@@ -396,7 +450,7 @@ export default function FarmerDashboard() {
             </p>
 
             <p className="mt-1 text-[10px] text-ink-faint">
-              VERIFIED
+              {t('verified').toUpperCase()}
             </p>
 
           </div>
@@ -415,20 +469,24 @@ export default function FarmerDashboard() {
         <div className="mb-3 flex items-center justify-between">
 
           <div>
+
             <p className="text-sm font-semibold text-ink">
-              Recent activity
+              {t('recentActivity')}
             </p>
 
             <p className="mt-0.5 text-xs text-ink-faint">
-              Your latest verified flexibility events
+              {t('latestEvents')}
             </p>
+
           </div>
 
+
           <span className="text-[10px] font-semibold uppercase tracking-wide text-sun-600">
-            View all
+            {t('viewAll')}
           </span>
 
         </div>
+
 
         <div className="overflow-hidden rounded-2xl border border-line bg-white">
 
@@ -452,6 +510,7 @@ export default function FarmerDashboard() {
 
               </div>
 
+
               <div className="min-w-0 flex-1">
 
                 <div className="flex items-center justify-between gap-3">
@@ -466,8 +525,15 @@ export default function FarmerDashboard() {
 
                 </div>
 
+
                 <p className="mt-1 text-xs text-ink-faint">
-                  {item.durationMin} min · {item.energyKwh} kWh verified
+
+                  {item.durationMin} min
+
+                  {' · '}
+
+                  {item.energyKwh} kWh {t('verified').toLowerCase()}
+
                 </p>
 
               </div>
@@ -490,32 +556,34 @@ export default function FarmerDashboard() {
         <div className="flex items-start gap-3">
 
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-100 text-green-700">
+
             <Droplets
               className="h-5 w-5"
               strokeWidth={1.75}
             />
+
           </div>
+
 
           <div>
 
             <p className="text-sm font-semibold text-ink">
-              Your flexibility matters
+              {t('yourFlexibilityMatters')}
             </p>
 
             <p className="mt-1 text-xs leading-5 text-ink-soft">
-              By making your pump available when the
-              grid needs flexible demand, you help absorb
-              renewable energy that might otherwise be curtailed.
+              {t('helpingGrid')}
             </p>
 
           </div>
 
         </div>
 
+
         <div className="mt-4 flex items-center justify-between rounded-xl bg-white/80 px-3 py-2.5">
 
           <span className="text-xs text-ink-soft">
-            Verified flexibility this month
+            {t('verifiedFlexibility')}
           </span>
 
           <span className="font-mono text-sm font-semibold text-green-700">
@@ -532,8 +600,7 @@ export default function FarmerDashboard() {
           ===================================================== */}
 
       <p className="px-2 pb-2 text-center text-[10px] leading-4 text-ink-faint">
-        YuvaSetu demo · Energy and earnings shown are
-        illustrative values from the prototype.
+        {t('demoNote')}
       </p>
 
     </div>
